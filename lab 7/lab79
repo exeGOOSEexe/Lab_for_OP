@@ -1,0 +1,56 @@
+def is_valid(x, y, M, N, visited):
+    return 0 <= x < M and 0 <= y < N and not visited[x][y]
+
+def dfs(x, y, move, M, N, visited, chessboard):
+    if move == M * N:
+        return True
+
+    visited[x][y] = True
+    chessboard[x][y] = move
+
+    dx = [2, 1, -1, -2, -2, -1, 1, 2]
+    dy = [1, 2, 2, 1, -1, -2, -2, -1]
+
+    for i in range(8):
+        new_x, new_y = x + dx[i], y + dy[i]
+        if is_valid(new_x, new_y, M, N, visited) and dfs(new_x, new_y, move + 1, M, N, visited, chessboard):
+            return True
+
+    visited[x][y] = False
+    chessboard[x][y] = 0
+    return False
+
+def find_knight_route(M, N, X, Y):
+    visited = [[False for _ in range(N)] for _ in range(M)]
+    chessboard = [[0 for _ in range(N)] for _ in range(M)]
+
+    if dfs(X - 1, Y - 1, 1, M, N, visited, chessboard):
+        return chessboard
+    else:
+        return None
+
+def print_chessboard(chessboard):
+    if chessboard:
+        for row in chessboard:
+            print(" ".join(map(str, row)))
+    else:
+        print("Route does not exist")
+
+if __name__ == "__main__":
+    with open("input.txt", "r") as f:
+        data = f.read()
+        M = int(data.split(",")[0].split("=")[1])
+        N = int(data.split(",")[1].split("=")[1])
+        X = int(data.split(",")[2].split("=")[1])
+        Y = int(data.split(",")[3].split("=")[1])
+
+    knight_route = find_knight_route(M, N, X, Y)
+
+    with open("output.txt", "w") as f:
+        if knight_route:
+            for row in knight_route:
+                f.write(" ".join(map(str, row)) + "\n")
+        else:
+            f.write("Route does not exist\n")
+
+    print_chessboard(knight_route)

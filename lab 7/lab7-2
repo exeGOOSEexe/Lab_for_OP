@@ -1,0 +1,10 @@
+def binomialcoefficient(n, m):
+    if m == 0 or m == n:
+        return 1
+    return binomialcoefficient(n-1, m) + binomialcoefficient(n-1, m-1)
+
+n = int(input("Введите значение n: "))
+m = int(input("Введите значение m: "))
+
+with open("output.txt", "w", encoding="utf-8") as y:
+        y.write(str(binomialcoefficient(n, m)))

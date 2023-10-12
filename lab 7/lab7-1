@@ -1,0 +1,8 @@
+def NOD(a,b):
+   if b == 0:
+      return a
+   return NOD(b,a % b)
+A = int(input())
+B = int(input())
+with open("output.txt", "w", encoding="utf-8") as y:
+        y.write(f"НОД({A},{B}) = " + str(NOD(A,B)))
